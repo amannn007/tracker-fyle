@@ -1,6 +1,8 @@
 # WorkoutTracker
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
+# OVERVIEW
+![alt text](https://firebasestorage.googleapis.com/v0/b/portfolio-abf22.appspot.com/o/Screenshot%202024-07-19%20213449.png?alt=media&token=98233729-98a0-4adf-9ade-a277390735e7)
 
 ## Development server
 
