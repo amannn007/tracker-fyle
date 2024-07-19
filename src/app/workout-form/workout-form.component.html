@@ -1,0 +1,87 @@
+<div class="container">
+  <h2>Workout Tracker</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="userName">User Name*</label>
+      <input type="text" id="userName" [(ngModel)]="workout.userName" name="userName" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="workoutType">Workout Type*</label>
+      <select id="workoutType" [(ngModel)]="workout.workoutType" name="workoutType" required>
+        <option value="Running">Running</option>
+        <option value="Cycling">Cycling</option>
+        <option value="Swimming">Swimming</option>
+        <!-- Add more workout types as needed -->
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="workoutMinutes">Workout Minutes*</label>
+      <input type="number" id="workoutMinutes" [(ngModel)]="workout.workoutMinutes" name="workoutMinutes" required>
+    </div>
+    
+    <button type="submit">Add Workout</button>
+  </form>
+
+  <div class="search-filter">
+    <div class="form-group">
+      <label for="searchName">Search by Name</label>
+      <input type="text" id="searchName" [(ngModel)]="searchName" (ngModelChange)="onSearchNameChange()">
+    </div>
+    <div class="form-group">
+      <label for="filterType">Filter by Workout Type</label>
+      <select id="filterType" [(ngModel)]="filterType" (ngModelChange)="onFilterTypeChange()">
+        <option value="">All</option>
+        <option value="Running">Running</option>
+        <option value="Cycling">Cycling</option>
+        <option value="Swimming">Swimming</option>
+        <!-- Add more workout types as needed -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="itemsPerPage">Items per page</label>
+      <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (ngModelChange)="setItemsPerPage($event)">
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="workout-list" *ngIf="filteredWorkouts.length > 0">
+    <h3>Submitted Workouts</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Workout Type</th>
+          <th>Workout Minutes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workout of paginatedWorkouts">
+          <td>{{ workout.userName }}</td>
+          <td>{{ workout.workoutType }}</td>
+          <td>{{ workout.workoutMinutes }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="pagination">
+      <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="setPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      <div>
+        Items per page:
+        <select [(ngModel)]="itemsPerPage" (ngModelChange)="setItemsPerPage($event)">
+          <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECharts Bar Chart -->
+  <div echarts [options]="barChartOption" class="chart-container" *ngIf="isBrowser"></div>
+
+  <!-- ECharts Line Chart -->
+  <div echarts [options]="lineChartOption" class="chart-container" *ngIf="isBrowser"></div>
+</div>
